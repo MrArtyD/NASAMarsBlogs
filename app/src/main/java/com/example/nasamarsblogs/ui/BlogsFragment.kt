@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.nasamarsblogs.R
@@ -35,7 +36,23 @@ class BlogsFragment : Fragment(R.layout.fragment_blogs) {
 
         binding.run {
             rvBlogs.adapter = adapter
+            btnLoadBlogs.setOnClickListener {
+                viewModel.getBlogs()
+            }
+
+            viewModel.isBlogsLoading.observe(viewLifecycleOwner){
+                progressBar.isVisible = it
+            }
+
+            viewModel.loadingError.observe(viewLifecycleOwner){
+                tvError.isVisible = it
+            }
         }
+
+        viewModel.blogs.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+        }
+
     }
 
     override fun onDestroyView() {
