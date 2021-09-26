@@ -14,19 +14,20 @@ import javax.inject.Inject
 class BlogsViewModel @Inject constructor(private val api: Api) : ViewModel() {
 
     private val _isBlogsLoading = MutableLiveData<Boolean>()
-    val isBlogsLoading : LiveData<Boolean>
+    val isBlogsLoading: LiveData<Boolean>
         get() = _isBlogsLoading
 
     private val _loadingError = MutableLiveData<Boolean>()
-    val loadingError : LiveData<Boolean>
+    val loadingError: LiveData<Boolean>
         get() = _loadingError
 
     private val _blogs = MutableLiveData<List<Blog>>()
-    val blogs : LiveData<List<Blog>>
+    val blogs: LiveData<List<Blog>>
         get() = _blogs
 
     fun getBlogs() {
-        viewModelScope.launch{
+        viewModelScope.launch {
+            //clear old list
             _blogs.value = listOf()
 
             _loadingError.value = false
@@ -34,7 +35,7 @@ class BlogsViewModel @Inject constructor(private val api: Api) : ViewModel() {
 
             val response = try {
                 loadBlogs()
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 onError()
                 return@launch
             }
@@ -50,7 +51,7 @@ class BlogsViewModel @Inject constructor(private val api: Api) : ViewModel() {
     }
 
     private suspend fun loadBlogs() =
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             api.loadMarsBlogs()
         }
 

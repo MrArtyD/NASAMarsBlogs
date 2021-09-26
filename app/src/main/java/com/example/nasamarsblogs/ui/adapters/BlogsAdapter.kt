@@ -1,5 +1,6 @@
 package com.example.nasamarsblogs.ui.adapters
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -29,6 +30,25 @@ class BlogsAdapter : ListAdapter<Blog, BlogsAdapter.BlogViewHolder>(BLOG_COMPARA
     }
 
     class BlogViewHolder(val binding: ItemBlogBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        private var isItemClicked: Boolean = false
+
+        init {
+            binding.root.setOnClickListener {
+                binding.run {
+                    if (!isItemClicked){
+                        tvTitle.maxLines = Int.MAX_VALUE
+                        tvTitle.ellipsize = null
+                    } else{
+                        tvTitle.maxLines = 1
+                        tvTitle.ellipsize = TextUtils.TruncateAt.END
+                    }
+
+                    isItemClicked = !isItemClicked
+                }
+            }
+        }
+
         fun bind(blog: Blog) {
             binding.run {
                 tvTitle.text = blog.title
