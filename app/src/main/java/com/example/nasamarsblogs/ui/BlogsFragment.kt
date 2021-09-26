@@ -32,6 +32,10 @@ class BlogsFragment : Fragment(R.layout.fragment_blogs) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUI()
+    }
+
+    private fun initUI() {
         val adapter = BlogsAdapter()
 
         binding.run {
@@ -40,19 +44,22 @@ class BlogsFragment : Fragment(R.layout.fragment_blogs) {
                 viewModel.getBlogs()
             }
 
-            viewModel.isBlogsLoading.observe(viewLifecycleOwner){
+            viewModel.isBlogsLoading.observe(viewLifecycleOwner) {
                 progressBar.isVisible = it
             }
 
-            viewModel.loadingError.observe(viewLifecycleOwner){
+            viewModel.loadingError.observe(viewLifecycleOwner) {
                 tvError.isVisible = it
+            }
+
+            viewModel.isBlogsEmpty.observe(viewLifecycleOwner) {
+                tvEmptyList.isVisible = it
             }
         }
 
-        viewModel.blogs.observe(viewLifecycleOwner){
+        viewModel.blogs.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-
     }
 
     override fun onDestroyView() {

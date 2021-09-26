@@ -29,7 +29,7 @@ class BlogsAdapter : ListAdapter<Blog, BlogsAdapter.BlogViewHolder>(BLOG_COMPARA
         }
     }
 
-    class BlogViewHolder(val binding: ItemBlogBinding) : RecyclerView.ViewHolder(binding.root) {
+    class BlogViewHolder(private val binding: ItemBlogBinding) : RecyclerView.ViewHolder(binding.root) {
 
         private var isItemClicked: Boolean = false
 
